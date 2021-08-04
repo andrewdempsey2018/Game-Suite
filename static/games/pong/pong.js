@@ -4,6 +4,14 @@ var config = {
     width: 800,
     height: 600,
 
+    physics: {
+        default: 'arcade',
+        arcade: {
+            gravity: { y: 0 },
+            debug: false
+        }
+    },
+
     scene: {
         preload: preload,
         create: create,
@@ -19,7 +27,7 @@ var ballSpeed = 3;
 function preload() {
 
     this.load.image('paddle', 'static/games/pong/paddle.png');
-    this.load.image('ballImage', 'static/games/pong/ball.png');
+    this.load.image('ball', 'static/games/pong/ball.png');
     this.load.image('area', 'static/games/pong/area.png');
 
     keyA = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.A);
@@ -30,9 +38,15 @@ function preload() {
 
 function create() {
     this.add.sprite(400, 300, "area");
-    ball = new Ball({ scene: this, x: 400, y: 300 });
+    //ball = new Ball({ scene: this, x: 400, y: 300 });
+    ball = this.physics.add.sprite(400, 300, 'ball');
     player1 = this.add.sprite(24, 300, "paddle");
     player2 = this.add.sprite(752, 300, "paddle");
+
+    ball.setCollideWorldBounds(true);
+    ball.setBounce(1.0);
+    ball.setVelocityX(200);
+    ball.setVelocityY(200);
 }
 
 function update() {
@@ -55,19 +69,21 @@ function update() {
         player2.y += 2;
     }
 
-    ball.move();
+    //ball.move();
 
-    if (collision(ball, player1) || collision(ball, player2)) {
+
+
+    /*if (collision(ball, player1) || collision(ball, player2)) {
         ball.reverseXSpeed();
-    }
+    }*/
 }
 
-function collision(sprite1, sprite2) {
+/*function collision(sprite1, sprite2) {
     if (sprite1.x < sprite2.x + sprite2.width &&
         sprite1.x + sprite1.width > sprite2.x &&
         sprite1.y < sprite2.y + sprite2.height &&
         sprite1.y + sprite1.height > sprite2.y) {
 
         return true;
-    }
-}
+    } 
+}*/
